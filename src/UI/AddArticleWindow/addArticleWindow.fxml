@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<GridPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.AddArticleWindow.AddArticleWindowController">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="295.0" minWidth="205.0" prefWidth="205.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="399.0" minWidth="10.0" prefWidth="396.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="40.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="40.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="40.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="40.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="40.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="40.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <Label fx:id="titleLabel" text="Create new Article">
+         <font>
+            <Font name="Times New Roman" size="24.0" />
+         </font>
+         <GridPane.margin>
+            <Insets left="20.0" />
+         </GridPane.margin>
+      </Label>
+      <Label text="Titre: " GridPane.rowIndex="1">
+         <font>
+            <Font name="Times New Roman" size="18.0" />
+         </font>
+         <GridPane.margin>
+            <Insets left="20.0" />
+         </GridPane.margin>
+      </Label>
+      <Label text="Auteur:" GridPane.rowIndex="2">
+         <font>
+            <Font name="Times New Roman" size="18.0" />
+         </font>
+         <GridPane.margin>
+            <Insets left="20.0" />
+         </GridPane.margin>
+      </Label>
+      <Label text="Source:" GridPane.rowIndex="3">
+         <font>
+            <Font name="Times New Roman" size="18.0" />
+         </font>
+         <GridPane.margin>
+            <Insets left="20.0" />
+         </GridPane.margin>
+      </Label>
+      <TextField fx:id="titreField" maxWidth="300.0" minWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <TextField fx:id="auteurField" maxWidth="300.0" minWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <TextField fx:id="sourceField" maxWidth="300.0" minWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+      <Label fx:id="secondSourceLabel" text="Long Source:" GridPane.rowIndex="4">
+         <font>
+            <Font name="Times New Roman" size="18.0" />
+         </font>
+         <GridPane.margin>
+            <Insets left="20.0" />
+         </GridPane.margin>
+      </Label>
+      <Label fx:id="radioLabel" text="Article Type:" GridPane.rowIndex="5">
+         <font>
+            <Font name="Times New Roman" size="18.0" />
+         </font>
+         <GridPane.margin>
+            <Insets left="20.0" />
+         </GridPane.margin>
+      </Label>
+      <TextField fx:id="secondSourceField" maxWidth="300.0" minWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+      <Button mnemonicParsing="false" onAction="#addButton" prefHeight="25.0" prefWidth="149.0" text="Add" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+      <RadioButton fx:id="firstChoice" mnemonicParsing="false" selected="true" text="Electronic" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+      <RadioButton fx:id="secondChoice" mnemonicParsing="false" text="Paper" GridPane.columnIndex="1" GridPane.rowIndex="5">
+         <GridPane.margin>
+            <Insets left="151.0" />
+         </GridPane.margin>
+      </RadioButton>
+   </children>
+</GridPane>

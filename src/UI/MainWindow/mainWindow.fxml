@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane prefHeight="396.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.MainWindow.MainWindowController">
+    <children>
+        <MenuBar fx:id="menuBar" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
+            <menus>
+                <Menu text="Base">
+                    <items>
+                        <MenuItem onAction="#newCollection" text="New" />
+                        <MenuItem onAction="#loadCollection" text="Open" />
+                        <MenuItem onAction="#saveCollection" text="Save" />
+                    </items>
+                </Menu>
+                <Menu text="Article">
+                    <items>
+                <MenuItem mnemonicParsing="false" onAction="#addPhoto" text="Add Photo" />
+                <MenuItem mnemonicParsing="false" onAction="#addArticle" text="Add Article" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem onAction="#edit" text="Edit" />
+                        <MenuItem onAction="#deleteArticle" text="Delete" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+        <Label layoutX="1.0" prefHeight="78.0" prefWidth="625.0" text="Base de News" textAlignment="CENTER" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+            <GridPane.margin>
+                <Insets left="2.0" />
+            </GridPane.margin>
+            <font>
+                <Font name="Times New Roman" size="24.0" />
+            </font>
+        </Label>
+        <Label text="Loglist" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+            <font>
+                <Font name="Times New Roman" size="20.0" />
+            </font>
+        </Label>
+        <ListView fx:id="logList" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4" GridPane.rowSpan="2">
+         <GridPane.margin>
+            <Insets bottom="2.0" right="2.0" />
+         </GridPane.margin></ListView>
+        <TextField fx:id="searchField" GridPane.rowIndex="3">
+            <GridPane.margin>
+                <Insets left="20.0" right="50.0" />
+            </GridPane.margin>
+            <padding>
+                <Insets top="1.0" />
+            </padding>
+        </TextField>
+        <Button fx:id="searchButton" mnemonicParsing="false" onAction="#search" text="Search" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <GridPane.margin>
+                <Insets right="10.0" />
+            </GridPane.margin>
+        </Button>
+      <ListView fx:id="newsListView" prefHeight="268.0" prefWidth="431.0" GridPane.columnSpan="2" GridPane.rowIndex="4">
+         <GridPane.margin>
+            <Insets bottom="2.0" left="2.0" right="10.0" />
+         </GridPane.margin>
+      </ListView>
+    </children>
+    <columnConstraints>
+        <ColumnConstraints maxWidth="195.0" minWidth="195.0" prefWidth="195.0" />
+        <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="360.0" prefWidth="360.0" />
+        <ColumnConstraints hgrow="ALWAYS" maxWidth="200.0" minWidth="120.0" prefWidth="165.0" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints maxHeight="42.0" minHeight="10.0" prefHeight="31.0" />
+        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="265.0" prefHeight="270.0" vgrow="ALWAYS" />
+      <RowConstraints />
+    </rowConstraints>
+</GridPane>
