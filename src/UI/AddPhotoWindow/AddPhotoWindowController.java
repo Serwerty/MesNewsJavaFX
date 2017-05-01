@@ -3,11 +3,12 @@ package UI.AddPhotoWindow;
 import Constants.mainConstants;
 import DAL.Models.NewsPhoto;
 import Logic.LogicController;
-import com.sun.org.apache.xpath.internal.operations.Bool;
+import Utility.Resolution;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -39,46 +40,54 @@ public class AddPhotoWindowController implements Initializable {
     private RadioButton secondChoice;
     @FXML
     private Label titleLabel;
+    @FXML
+    private Button addButton;
 
     @FXML
-    private void addButton() {
+    private void addButtonAction() {
         Boolean _isInputCorrect = true;
         String _titre = titreField.getText();
         String _auteur = auteurField.getText();
         String _source = sourceField.getText();
+        URL _sourceURL = null;
         try {
-            URL _sourceURL = new URL(_source);
+            _sourceURL = new URL(_source);
         }
         catch (MalformedURLException exp){
             _isInputCorrect = false;
-            sourceField.getStyleClass().add("error");
+            sourceField.setStyle(mainConstants.ERROR_STYLE);
         }
 
         String _secondSource = secondSourceField.getText();
+        URL _secondSourceURL = null;
+        try {
+            _secondSourceURL = new URL(_secondSource);
+        }
+        catch (MalformedURLException exp){
+            _isInputCorrect = false;
+            secondSourceField.setStyle(mainConstants.ERROR_STYLE);
+        }
+
         String _photoType = dropDownList.getValue();
         int _resX = Integer.parseInt(resolutionFieldWidth.getText());
         int _resY = Integer.parseInt(resolutionFieldHeight.getText());
         Boolean _isBlanc = firstChoice.isSelected();
 
         if (_isInputCorrect) {
-           // NewsPhoto _photoToBeAdded = new
+            NewsPhoto _photoToBeAdded = new NewsPhoto(_titre, _auteur, _sourceURL, _secondSourceURL, _photoType,
+                                                      new Resolution(_resX, _resY), _isBlanc);
 
             switch (LogicController.instance().getCurrentMode()) {
-                case mainConstants.ADDING_PHOTO_MODE:
-                    break;
-                case mainConstants.EDITING_PHOTO_MODE:
-                    initEditingMode();
-                    break;
-                default:
-                    Platform.exit();
-                    break;
+                case mainConstants.ADDING_PHOTO_MODE:   LogicController.instance().addNews(_photoToBeAdded);    break;
+                case mainConstants.EDITING_PHOTO_MODE:  LogicController.instance().editNews(_photoToBeAdded);   break;
+                default:                                closeWindow();                                          break;
             }
+            closeWindow();
         }
     }
 
-    private void  addPhoto(NewsPhoto _photoToBeAdded)
-    {
-        LogicController.instance().addNews(_photoToBeAdded);
+    private void closeWindow() {
+        ((Stage)(addButton.getScene().getWindow())).close();
     }
 
     @Override
@@ -98,7 +107,7 @@ public class AddPhotoWindowController implements Initializable {
         switch (LogicController.instance().getCurrentMode()) {
             case mainConstants.ADDING_PHOTO_MODE  :     initAddingMode();    break;
             case mainConstants.EDITING_PHOTO_MODE :     initEditingMode();   break;
-            default :                                   Platform.exit();     break;
+            default :                                   closeWindow();       break;
         }
     }
 

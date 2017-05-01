@@ -52,45 +52,38 @@ public class MainWindowController implements Initializable{
 
         newsListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             selectedId = DataProvider.instance().getList().indexOf(newValue);
-
             //Logger.instance().add("Selected item: " + selectedId);
         });
     }
 
-    private void populateTableView()
-    {
+    private void populateTableView() {
         newsListView.itemsProperty().bind(DataProvider.instance().getList());
     }
 
     @FXML
-    private void search()
-    {
+    private void search() {
         Logger.instance().add("click!");
     }
 
     @FXML
-    private void newCollection()
-    {
+    private void newCollection() {
         LogicController.instance().newCollection();
         populateTableView();
     }
 
     @FXML
-    private void loadCollection()
-    {
+    private void loadCollection() {
         LogicController.instance().loadCollection();
         populateTableView();
     }
 
     @FXML
-    private void saveCollection()
-    {
+    private void saveCollection() {
         LogicController.instance().saveCollection();
     }
 
     @FXML
-    private void addArticle()
-    {
+    private void addArticle() {
         LogicController.instance().switchMode(mainConstants.ADDING_ARTICLE_MODE);
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("UI/AddArticleWindow/addArticleWindow.fxml"));
@@ -107,8 +100,7 @@ public class MainWindowController implements Initializable{
     }
 
     @FXML
-    private void addPhoto()
-    {
+    private void addPhoto() {
         LogicController.instance().switchMode(mainConstants.ADDING_PHOTO_MODE);
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("UI/AddPhotoWindow/addPhotoWindow.fxml"));
@@ -125,10 +117,8 @@ public class MainWindowController implements Initializable{
     }
 
     @FXML
-    private void edit()
-    {
-        if (selectedId!=-1)
-        {
+    private void edit() {
+        if (selectedId!=-1) {
            News _news = DataProvider.instance().getArticle(selectedId);
             if (_news instanceof NewsPhoto) {
                 LogicController.instance().setNewsToBeEdit(_news);
@@ -139,14 +129,12 @@ public class MainWindowController implements Initializable{
                 editArticle();
             }
         }
-        else
-        {
+        else {
             Logger.instance().add("Select item first!");
         }
     }
 
-    private void editPhoto()
-    {
+    private void editPhoto() {
         LogicController.instance().switchMode(mainConstants.EDITING_PHOTO_MODE);
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("UI/AddPhotoWindow/addPhotoWindow.fxml"));
@@ -162,8 +150,7 @@ public class MainWindowController implements Initializable{
         }
     }
 
-    private void editArticle()
-    {
+    private void editArticle() {
         LogicController.instance().switchMode(mainConstants.EDITING_ARTICLE_MODE);
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("UI/AddArticleWindow/addArticleWindow.fxml"));
@@ -180,15 +167,13 @@ public class MainWindowController implements Initializable{
     }
 
     @FXML
-    private void deleteArticle()
-    {
+    private void deleteArticle() {
         if (selectedId != -1) {
             if (DataProvider.instance().delete(selectedId)) {
                 selectedId = -1;
             }
         }
-        else
-        {
+        else {
             Logger.instance().add("Select item to be deleted first!");
         }
     }

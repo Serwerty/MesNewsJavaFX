@@ -18,8 +18,7 @@ public class NewsPhoto extends News{
     private boolean isBlanc;
 
     public NewsPhoto(String titre, String auteur, URL source,URL photoURL, String imageType, Resolution resolution,
-                     boolean isBlanc)
-    {
+                     boolean isBlanc) {
         super(titre, auteur, source);
         this.photoURL = photoURL;
         this.imageType = imageType;
@@ -27,16 +26,14 @@ public class NewsPhoto extends News{
         this.isBlanc = isBlanc;
     }
 
-    public String toString()
-    {
+    public String toString() {
 
-        return super.toString() + String.format(", Photo URL: %s, Image type: %s, Utility.Resolution: %spx x %spx, Image: %s",
+        return super.toString() + String.format(", Photo URL: %s, Image type: %s, Resolution: %spx : %spx, Image: %s",
                 photoURL, imageType, resolution.getWidth(), resolution.getHeight(),
                                                 isBlanc ? "blanc" : "noir");
     }
 
-    public void afficher(PrintWriter pw)
-    {
+    public void afficher(PrintWriter pw) {
         pw.println(this.toString());
     }
 

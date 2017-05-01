@@ -18,14 +18,12 @@ public class NewsPresse extends News{
         this.isELectronic = isELectronic;
     }
 
-    public String toString()
-    {
+    public String toString() {
         return super.toString() + String.format(", URL longue: %s, Article: %s", urlLongue.toString(),
                                                 isELectronic? "electronic" : "papier");
     }
 
-    public void afficher(PrintWriter pw)
-    {
+    public void afficher(PrintWriter pw) {
         pw.println(this.toString());
     }
 

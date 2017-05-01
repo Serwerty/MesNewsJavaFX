@@ -6,10 +6,13 @@ import Logic.LogicController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -19,23 +22,63 @@ import java.util.ResourceBundle;
 public class AddArticleWindowController implements Initializable {
 
     @FXML
-    public TextField titreField;
+    private TextField titreField;
     @FXML
-    public TextField auteurField;
+    private TextField auteurField;
     @FXML
-    public TextField sourceField;
+    private TextField sourceField;
     @FXML
-    public TextField secondSourceField;
+    private TextField secondSourceField;
     @FXML
-    public RadioButton firstChoice;
+    private RadioButton firstChoice;
     @FXML
-    public RadioButton secondChoice;
+    private RadioButton secondChoice;
     @FXML
-    public Label titleLabel;
+    private Label titleLabel;
+    @FXML
+    private Button addButton;
 
     @FXML
-    public void addButton() {
+    public void addButtonAction() {
+        Boolean _isInputCorrect = true;
+        String _titre = titreField.getText();
+        String _auteur = auteurField.getText();
+        String _source = sourceField.getText();
+        URL _sourceURL = null;
+        try {
+            _sourceURL = new URL(_source);
+        }
+        catch (MalformedURLException exp){
+            _isInputCorrect = false;
+            sourceField.setStyle(mainConstants.ERROR_STYLE);
+        }
 
+        String _secondSource = secondSourceField.getText();
+        URL _secondSourceURL = null;
+        try {
+            _secondSourceURL = new URL(_secondSource);
+        }
+        catch (MalformedURLException exp){
+            _isInputCorrect = false;
+            secondSourceField.setStyle(mainConstants.ERROR_STYLE);
+        }
+
+        Boolean _isElectronic = firstChoice.isSelected();
+
+        if (_isInputCorrect) {
+            NewsPresse _presseToBeAdded = new NewsPresse(_titre, _auteur, _sourceURL, _secondSourceURL, _isElectronic);
+
+            switch (LogicController.instance().getCurrentMode()) {
+                case mainConstants.ADDING_ARTICLE_MODE:   LogicController.instance().addNews(_presseToBeAdded);    break;
+                case mainConstants.EDITING_ARTICLE_MODE:  LogicController.instance().editNews(_presseToBeAdded);   break;
+                default:                                  closeWindow();                                           break;
+            }
+            closeWindow();
+        }
+    }
+
+    private void closeWindow() {
+        ((Stage)(addButton.getScene().getWindow())).close();
     }
 
     @Override
@@ -43,7 +86,7 @@ public class AddArticleWindowController implements Initializable {
         switch (LogicController.instance().getCurrentMode()) {
             case mainConstants.ADDING_ARTICLE_MODE  :     initAddingMode();    break;
             case mainConstants.EDITING_ARTICLE_MODE :     initEditingMode();   break;
-            default :                                     Platform.exit();     break;
+            default :                                     closeWindow();       break;
         }
     }
 

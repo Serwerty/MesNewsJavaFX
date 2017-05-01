@@ -73,7 +73,7 @@
          </GridPane.margin>
       </Label>
       <TextField fx:id="secondSourceField" maxWidth="300.0" minWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-      <Button mnemonicParsing="false" onAction="#addButton" prefHeight="25.0" prefWidth="149.0" text="Add" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+      <Button fx:id="addButton" mnemonicParsing="false" onAction="#addButtonAction" prefHeight="25.0" prefWidth="149.0" text="Add" GridPane.columnIndex="1" GridPane.rowIndex="6" />
       <RadioButton fx:id="firstChoice" mnemonicParsing="false" selected="true" text="Electronic" GridPane.columnIndex="1" GridPane.rowIndex="5">
          <toggleGroup>
             <ToggleGroup fx:id="toggleGroup" />

@@ -3,8 +3,7 @@ package Logic;
 import Constants.mainConstants;
 import DAL.DataProvider;
 import DAL.Models.News;
-
-import java.lang.reflect.Type;
+import Logger.Logger;
 
 /**
  * Created by Oleg Dovzhenko on 28.04.2017.
@@ -59,11 +58,14 @@ public class LogicController {
         this.newsToBeEdit = newsToBeEdit;
     }
 
-    public void addNews(News _newsToBeAdded) {
-        DataProvider.instance().add(_newsToBeAdded);
+    public void addNews(News newsToBeAdded) {
+        DataProvider.instance().add(newsToBeAdded);
+        Logger.instance().add("Added successfully");
     }
 
-    public void editNews(int id, News _newsToBeEdited){
-        DataProvider.instance().editArticle(id, _newsToBeEdited);
+    public void editNews(News editedNews){
+        int id = DataProvider.instance().getIndexOfArticle(newsToBeEdit);
+        DataProvider.instance().editArticle(id, editedNews);
+        Logger.instance().add("Edited successfully");
     }
 }

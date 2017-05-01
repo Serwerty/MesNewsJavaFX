@@ -28,4 +28,6 @@ public interface mainConstants {
          add("PNG");
          add("BAT");
    }};
+
+   String ERROR_STYLE = "-fx-border-color: red ; -fx-border-width: 2px ;";
 }

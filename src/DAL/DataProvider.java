@@ -20,51 +20,42 @@ public class DataProvider implements Serializable{
     private ListProperty<String> newsCollectionProperty;
     private ArrayList<String> newsStringCollection;
 
-    private DataProvider()
-    {
+    private DataProvider() {
         newCollection();
     }
 
-    public static DataProvider instance()
-    {
+    public static DataProvider instance() {
         if (_instance == null)
             _instance = new DataProvider();
         return _instance;
     }
 
-    public void newCollection()
-    {
+    public void newCollection() {
         newsCollection = new ArrayList<>();
         newsStringCollection = new ArrayList<>();
         newsCollectionProperty = new SimpleListProperty<>();
         Logger.instance().add("new Collection created");
     }
 
-    public boolean saveCollection()
-    {
-        try
-        {
+    public boolean saveCollection() {
+        try {
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(mainConstants.FILE_NAME));
             objectOutputStream.writeObject(newsCollection);
             objectOutputStream.close();
             Logger.instance().add("Collection saved successfully");
             return true;
         }
-        catch (FileNotFoundException exp)
-        {
+        catch (FileNotFoundException exp) {
             Logger.instance().add("Crashed with: " + exp.getMessage());
         }
-        catch (IOException exp)
-        {
+        catch (IOException exp) {
             Logger.instance().add("Crashed with: " + exp.getMessage());
         }
         return false;
     }
 
-    public boolean loadCollection()
-    {
-        try
-        {
+    public boolean loadCollection() {
+        try {
             newCollection();
             ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(mainConstants.FILE_NAME));
             newsCollection = (ArrayList<News>)objectInputStream.readObject();
@@ -76,23 +67,19 @@ public class DataProvider implements Serializable{
             Logger.instance().add("File loaded successfully : " + newsCollection.size() + " items loaded." );
             return true;
         }
-        catch (FileNotFoundException exp)
-        {
+        catch (FileNotFoundException exp) {
             Logger.instance().add("Crashed with: " + exp.getMessage());
         }
-        catch (IOException exp)
-        {
+        catch (IOException exp) {
             Logger.instance().add("Crashed with: " + exp.getMessage());
         }
-        catch (ClassNotFoundException exp)
-        {
+        catch (ClassNotFoundException exp) {
             Logger.instance().add("Crashed with: " + exp.getMessage());
         }
         return false;
     }
 
-    public boolean delete(int id)
-    {
+    public boolean delete(int id) {
         if (id > 0 && id <= newsCollection.size()) {
             newsCollection.remove(id );
             newsStringCollection = new ArrayList<>();
@@ -106,23 +93,20 @@ public class DataProvider implements Serializable{
         return false;
     }
 
-    public void add(News news)
-    {
+    public void add(News news) {
         newsCollection.add(news);
         newsStringCollection.add("#" + newsCollection.indexOf(news)+ ": " +news.toString());
         newsCollectionProperty.set(FXCollections.observableArrayList(newsStringCollection));
         //newsCollection.sort(News::compareTo);
     }
 
-    public News getArticle(int id)
-    {
+    public News getArticle(int id) {
         if (id >= 0 && id < newsCollection.size())
             return newsCollection.get(id);
         return null;
     }
 
-    public boolean editArticle(int id, News news)
-    {
+    public boolean editArticle(int id, News news) {
         if (newsCollection.contains(id)) {
             newsCollection.set(id, news);
             return true;
@@ -130,13 +114,11 @@ public class DataProvider implements Serializable{
         return false;
     }
 
-    public  ListProperty<String> getList()
-    {
+    public  ListProperty<String> getList() {
         return newsCollectionProperty;
     }
 
-    public  ListProperty<String> getList(Predicate<News> tester)
-    {
+    public  ListProperty<String> getList(Predicate<News> tester) {
         ArrayList<String> _finalCollection = new ArrayList<>();
         ListProperty<String> _finalCollectionProperty = new SimpleListProperty<>();
         _finalCollectionProperty.set(FXCollections.observableArrayList(_finalCollection));
@@ -149,4 +131,7 @@ public class DataProvider implements Serializable{
         return _finalCollectionProperty;
     }
 
+    public int getIndexOfArticle(News article){
+        return newsCollection.indexOf(article);
+    }
 }
