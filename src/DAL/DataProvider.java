@@ -80,7 +80,7 @@ public class DataProvider implements Serializable{
     }
 
     public boolean delete(int id) {
-        if (id > 0 && id <= newsCollection.size()) {
+        if (id >= 0 && id < newsCollection.size()) {
             newsCollection.remove(id );
             newsStringCollection = new ArrayList<>();
             for (News _news : newsCollection) {
@@ -107,8 +107,9 @@ public class DataProvider implements Serializable{
     }
 
     public boolean editArticle(int id, News news) {
-        if (newsCollection.contains(id)) {
+        if (id >= 0 && id <= newsCollection.size()) {
             newsCollection.set(id, news);
+            newsStringCollection.set(id, "#" + id +": " +news.toString());
             return true;
         }
         return false;

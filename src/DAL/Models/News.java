@@ -40,7 +40,7 @@ public abstract class News implements Comparable<News>, Serializable {
     }
 
     public String toString() {
-        return String.format("Titre: %s, Data: %s, Auteur: %s, Source: %s", titre, date.format(formatter).toString(), auteur,
+        return String.format("Titre: %s, Date: %s, Auteur: %s, Source: %s", titre, date.format(formatter).toString(), auteur,
                              source.toString());
     }
 

@@ -3,7 +3,6 @@ package UI.AddArticleWindow;
 import Constants.mainConstants;
 import DAL.Models.NewsPresse;
 import Logic.LogicController;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -41,8 +40,15 @@ public class AddArticleWindowController implements Initializable {
     @FXML
     public void addButtonAction() {
         Boolean _isInputCorrect = true;
+
         String _titre = titreField.getText();
+        if ("".equals(_titre))
+            titreField.setStyle(mainConstants.ERROR_STYLE);
+
         String _auteur = auteurField.getText();
+        if ("".equals(_auteur))
+            auteurField.setStyle(mainConstants.ERROR_STYLE);
+
         String _source = sourceField.getText();
         URL _sourceURL = null;
         try {
@@ -83,6 +89,31 @@ public class AddArticleWindowController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        sourceField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if ("".equals(sourceField.getText()))
+                sourceField.setText("http://");
+        });
+
+        sourceField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if ("".equals(sourceField.getText()))
+                sourceField.setText("http://");
+            sourceField.setStyle(null);
+        });
+
+        secondSourceField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if ("".equals(secondSourceField.getText()))
+                secondSourceField.setText("http://");
+        });
+
+        secondSourceField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if ("".equals(secondSourceField.getText()))
+                secondSourceField.setText("http://");
+            secondSourceField.setStyle(null);
+        });
+
+        titreField.focusedProperty().addListener((observable, oldValue, newValue) -> titreField.setStyle(null));
+        auteurField.focusedProperty().addListener((observable, oldValue, newValue) -> auteurField.setStyle(null));
+
         switch (LogicController.instance().getCurrentMode()) {
             case mainConstants.ADDING_ARTICLE_MODE  :     initAddingMode();    break;
             case mainConstants.EDITING_ARTICLE_MODE :     initEditingMode();   break;

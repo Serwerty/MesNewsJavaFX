@@ -4,7 +4,6 @@ import Constants.mainConstants;
 import DAL.Models.NewsPhoto;
 import Logic.LogicController;
 import Utility.Resolution;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -47,7 +46,13 @@ public class AddPhotoWindowController implements Initializable {
     private void addButtonAction() {
         Boolean _isInputCorrect = true;
         String _titre = titreField.getText();
+        if ("".equals(_titre))
+            titreField.setStyle(mainConstants.ERROR_STYLE);
+
         String _auteur = auteurField.getText();
+        if ("".equals(_auteur))
+            auteurField.setStyle(mainConstants.ERROR_STYLE);
+
         String _source = sourceField.getText();
         URL _sourceURL = null;
         try {
@@ -69,8 +74,19 @@ public class AddPhotoWindowController implements Initializable {
         }
 
         String _photoType = dropDownList.getValue();
-        int _resX = Integer.parseInt(resolutionFieldWidth.getText());
-        int _resY = Integer.parseInt(resolutionFieldHeight.getText());
+        String _resXString = resolutionFieldWidth.getText();
+        int _resX=0;
+        if ("".equals(_resXString))
+            resolutionFieldWidth.setStyle(mainConstants.ERROR_STYLE);
+        else
+            _resX = Integer.parseInt(_resXString);
+
+        String _resYString = resolutionFieldHeight.getText();
+        int _resY=0;
+        if ("".equals(_resYString))
+            resolutionFieldHeight.setStyle(mainConstants.ERROR_STYLE);
+        else
+            _resY = Integer.parseInt(_resYString);
         Boolean _isBlanc = firstChoice.isSelected();
 
         if (_isInputCorrect) {
@@ -94,6 +110,33 @@ public class AddPhotoWindowController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         dropDownList.getItems().addAll(mainConstants.PHOTO_TYPES_LIST);
         dropDownList.getSelectionModel().selectFirst();
+
+        sourceField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if ("".equals(sourceField.getText()))
+                sourceField.setText("http://");
+        });
+
+        sourceField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if ("".equals(sourceField.getText()))
+                sourceField.setText("http://");
+            sourceField.setStyle(null);
+        });
+
+        secondSourceField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if ("".equals(secondSourceField.getText()))
+                secondSourceField.setText("http://");
+        });
+
+        secondSourceField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if ("".equals(secondSourceField.getText()))
+                secondSourceField.setText("http://");
+            secondSourceField.setStyle(null);
+        });
+
+        titreField.focusedProperty().addListener((observable, oldValue, newValue) -> titreField.setStyle(null));
+        auteurField.focusedProperty().addListener((observable, oldValue, newValue) -> auteurField.setStyle(null));
+        resolutionFieldHeight.focusedProperty().addListener((observable, oldValue, newValue) -> resolutionFieldHeight.setStyle(null));
+        resolutionFieldWidth.focusedProperty().addListener((observable, oldValue, newValue) -> resolutionFieldWidth.setStyle(null));
 
         resolutionFieldWidth.setTooltip(new Tooltip("Width"));
         resolutionFieldHeight.setTooltip(new Tooltip("Height"));

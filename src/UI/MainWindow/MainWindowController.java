@@ -6,26 +6,16 @@ import DAL.Models.News;
 import DAL.Models.NewsPhoto;
 import DAL.Models.NewsPresse;
 import Logic.LogicController;
-import UI.AddPhotoWindow.AddPhotoWindowController;
-import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import Logger.Logger;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -56,7 +46,7 @@ public class MainWindowController implements Initializable{
         });
     }
 
-    private void populateTableView() {
+    public void populateTableView() {
         newsListView.itemsProperty().bind(DataProvider.instance().getList());
     }
 
