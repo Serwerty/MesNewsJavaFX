@@ -98,8 +98,11 @@
          </GridPane.margin>
       </TextField>
       <Button mnemonicParsing="false" onAction="#addButton" prefHeight="25.0" prefWidth="149.0" text="Add" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-      <RadioButton fx:id="firstChoice" mnemonicParsing="false" selected="true" text="Blanc" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-      <RadioButton fx:id="secondChoice" mnemonicParsing="false" text="Noir" GridPane.columnIndex="1" GridPane.rowIndex="5">
+      <RadioButton fx:id="firstChoice" mnemonicParsing="false" selected="true" text="Blanc" GridPane.columnIndex="1" GridPane.rowIndex="5">
+         <toggleGroup>
+            <ToggleGroup fx:id="toggleGroup" />
+         </toggleGroup></RadioButton>
+      <RadioButton fx:id="secondChoice" mnemonicParsing="false" text="Noir" toggleGroup="$toggleGroup" GridPane.columnIndex="1" GridPane.rowIndex="5">
          <GridPane.margin>
             <Insets left="151.0" />
          </GridPane.margin>

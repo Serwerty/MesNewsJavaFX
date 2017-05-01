@@ -131,12 +131,12 @@ public class MainWindowController implements Initializable{
         {
            News _news = DataProvider.instance().getArticle(selectedId);
             if (_news instanceof NewsPhoto) {
-                editPhoto();
                 LogicController.instance().setNewsToBeEdit(_news);
+                editPhoto();
             }
             else if (_news instanceof NewsPresse){
-                editArticle();
                 LogicController.instance().setNewsToBeEdit(_news);
+                editArticle();
             }
         }
         else

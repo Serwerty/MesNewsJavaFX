@@ -1,5 +1,8 @@
 package Constants;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Oleg Dovzhenko on 28.04.2017.
  */
@@ -16,4 +19,13 @@ public interface mainConstants {
    String EDITING_PHOTO_TITLE = "Edit Photo";
    String ADDING_ARTICLE_TITLE = "Add new Article";
    String ADDING_PHOTO_TITLE = "Add new Photo";
+
+   List<String> PHOTO_TYPES_LIST = new ArrayList<String>(){{
+         add("JPG");
+         add("GIF");
+         add("JPEG");
+         add("BMP");
+         add("PNG");
+         add("BAT");
+   }};
 }

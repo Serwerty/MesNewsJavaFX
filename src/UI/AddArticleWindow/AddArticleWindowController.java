@@ -1,6 +1,7 @@
 package UI.AddArticleWindow;
 
 import Constants.mainConstants;
+import DAL.Models.NewsPresse;
 import Logic.LogicController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -33,29 +34,36 @@ public class AddArticleWindowController implements Initializable {
     public Label titleLabel;
 
     @FXML
-    public void addButton()
-    {
+    public void addButton() {
 
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        switch (LogicController.instance().getCurrentMode())
-        {
+        switch (LogicController.instance().getCurrentMode()) {
             case mainConstants.ADDING_ARTICLE_MODE  :     initAddingMode();    break;
             case mainConstants.EDITING_ARTICLE_MODE :     initEditingMode();   break;
             default :                                     Platform.exit();     break;
         }
     }
 
-    private void initAddingMode()
-    {
+    private void initAddingMode() {
         titleLabel.setText(mainConstants.ADDING_ARTICLE_TITLE);
     }
 
-    private void initEditingMode()
-    {
+    private void initEditingMode() {
         titleLabel.setText(mainConstants.EDITING_ARTICLE_TITLE);
+        NewsPresse _newsArticle = (NewsPresse)LogicController.instance().getNewsToBeEdit();
+        titreField.setText(_newsArticle.getTitre());
+        auteurField.setText(_newsArticle.getAuteur());
+        sourceField.setText(_newsArticle.getSource().toString());
+        secondSourceField.setText(_newsArticle.getUrlLongue().toString());
+        if (_newsArticle.isELectronic()) {
+            firstChoice.setSelected(true);
+        }
+        else {
+            secondChoice.setSelected(true);
+        }
     }
 
 }

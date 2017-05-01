@@ -1,19 +1,18 @@
 package UI.AddPhotoWindow;
 
 import Constants.mainConstants;
-import DAL.DataProvider;
 import DAL.Models.NewsPhoto;
 import Logic.LogicController;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.function.UnaryOperator;
 
 /**
  * Created by Oleg Dovzhenko on 30.04.2017.
@@ -21,50 +20,94 @@ import java.util.ResourceBundle;
 public class AddPhotoWindowController implements Initializable {
 
     @FXML
-    public TextField titreField;
+    private TextField titreField;
     @FXML
-    public TextField auteurField;
+    private TextField auteurField;
     @FXML
-    public TextField sourceField;
+    private TextField sourceField;
     @FXML
-    public TextField secondSourceField;
+    private TextField secondSourceField;
     @FXML
-    public TextField resolutionFieldWidth;
+    private TextField resolutionFieldWidth;
     @FXML
-    public TextField resolutionFieldHeight;
+    private TextField resolutionFieldHeight;
     @FXML
     public ChoiceBox<String> dropDownList;
     @FXML
-    public RadioButton firstChoice;
+    private RadioButton firstChoice;
     @FXML
-    public RadioButton secondChoice;
+    private RadioButton secondChoice;
     @FXML
-    public Label titleLabel;
+    private Label titleLabel;
 
     @FXML
-    public void addButton()
+    private void addButton() {
+        Boolean _isInputCorrect = true;
+        String _titre = titreField.getText();
+        String _auteur = auteurField.getText();
+        String _source = sourceField.getText();
+        try {
+            URL _sourceURL = new URL(_source);
+        }
+        catch (MalformedURLException exp){
+            _isInputCorrect = false;
+            sourceField.getStyleClass().add("error");
+        }
+
+        String _secondSource = secondSourceField.getText();
+        String _photoType = dropDownList.getValue();
+        int _resX = Integer.parseInt(resolutionFieldWidth.getText());
+        int _resY = Integer.parseInt(resolutionFieldHeight.getText());
+        Boolean _isBlanc = firstChoice.isSelected();
+
+        if (_isInputCorrect) {
+           // NewsPhoto _photoToBeAdded = new
+
+            switch (LogicController.instance().getCurrentMode()) {
+                case mainConstants.ADDING_PHOTO_MODE:
+                    break;
+                case mainConstants.EDITING_PHOTO_MODE:
+                    initEditingMode();
+                    break;
+                default:
+                    Platform.exit();
+                    break;
+            }
+        }
+    }
+
+    private void  addPhoto(NewsPhoto _photoToBeAdded)
     {
-
+        LogicController.instance().addNews(_photoToBeAdded);
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        switch (LogicController.instance().getCurrentMode())
-        {
+        dropDownList.getItems().addAll(mainConstants.PHOTO_TYPES_LIST);
+        dropDownList.getSelectionModel().selectFirst();
+
+        resolutionFieldWidth.setTooltip(new Tooltip("Width"));
+        resolutionFieldHeight.setTooltip(new Tooltip("Height"));
+
+        UnaryOperator<TextFormatter.Change> filterNumbers = x -> x.getControlNewText().matches("[0-9]{0,5}")? x : null;
+
+        resolutionFieldWidth.setTextFormatter(new TextFormatter<String>(filterNumbers));
+        resolutionFieldHeight.setTextFormatter(new TextFormatter<String>(filterNumbers));
+
+
+        switch (LogicController.instance().getCurrentMode()) {
             case mainConstants.ADDING_PHOTO_MODE  :     initAddingMode();    break;
             case mainConstants.EDITING_PHOTO_MODE :     initEditingMode();   break;
             default :                                   Platform.exit();     break;
         }
     }
 
-    private void initAddingMode()
-    {
+    private void initAddingMode() {
         titleLabel.setText(mainConstants.ADDING_PHOTO_TITLE);
     }
 
-    private void initEditingMode()
-    {
-        titleLabel.setText(mainConstants.EDITING_ARTICLE_MODE);
+    private void initEditingMode() {
+        titleLabel.setText(mainConstants.EDITING_PHOTO_TITLE);
         NewsPhoto _newsPhoto = (NewsPhoto)LogicController.instance().getNewsToBeEdit();
         titreField.setText(_newsPhoto.getTitre());
         auteurField.setText(_newsPhoto.getAuteur());
@@ -72,12 +115,12 @@ public class AddPhotoWindowController implements Initializable {
         secondSourceField.setText(_newsPhoto.getPhotoURL().toString());
         resolutionFieldWidth.setText((new Integer(_newsPhoto.getResolution().getWidth()).toString()));
         resolutionFieldHeight.setText(new Integer(_newsPhoto.getResolution().getHeight()).toString());
+        dropDownList.getSelectionModel().select(_newsPhoto.getImageType());
         if (_newsPhoto.isBlanc()) {
-            firstChoice.fire();
+            firstChoice.setSelected(true);
         }
         else {
-            secondChoice.fire();
+            secondChoice.setSelected(true);
         }
-
     }
 }

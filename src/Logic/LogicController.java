@@ -11,15 +11,13 @@ import java.lang.reflect.Type;
  */
 public class LogicController {
     private static LogicController _instance;
-    private LogicController()
-    {
+    private LogicController() {
         currentMode = mainConstants.NONE_MODE;
     }
 
     private News newsToBeEdit;
 
-    public static LogicController instance()
-    {
+    public static LogicController instance() {
         if (_instance == null)
             _instance = new LogicController();
         return _instance;
@@ -27,15 +25,12 @@ public class LogicController {
 
     private String currentMode;
 
-    public String getCurrentMode()
-    {
+    public String getCurrentMode() {
         return currentMode;
     }
 
-    public void switchMode(String mode)
-    {
-        switch (mode)
-        {
+    public void switchMode(String mode) {
+        switch (mode) {
             case mainConstants.ADDING_PHOTO_MODE :      currentMode = mode;                     break;
             case mainConstants.EDITING_PHOTO_MODE :     currentMode = mode;                     break;
             case mainConstants.ADDING_ARTICLE_MODE :    currentMode = mode;                     break;
@@ -44,18 +39,15 @@ public class LogicController {
         }
     }
 
-    public void saveCollection()
-    {
+    public void saveCollection() {
         DataProvider.instance().saveCollection();
     }
 
-    public void loadCollection()
-    {
+    public void loadCollection() {
         DataProvider.instance().loadCollection();
     }
 
-    public void newCollection()
-    {
+    public void newCollection() {
         DataProvider.instance().newCollection();
     }
 
@@ -65,5 +57,13 @@ public class LogicController {
 
     public void setNewsToBeEdit(News newsToBeEdit) {
         this.newsToBeEdit = newsToBeEdit;
+    }
+
+    public void addNews(News _newsToBeAdded) {
+        DataProvider.instance().add(_newsToBeAdded);
+    }
+
+    public void editNews(int id, News _newsToBeEdited){
+        DataProvider.instance().editArticle(id, _newsToBeEdited);
     }
 }

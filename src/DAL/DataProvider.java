@@ -116,7 +116,7 @@ public class DataProvider implements Serializable{
 
     public News getArticle(int id)
     {
-        if (newsCollection.contains(id))
+        if (id >= 0 && id < newsCollection.size())
             return newsCollection.get(id);
         return null;
     }
