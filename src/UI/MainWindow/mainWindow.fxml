@@ -45,15 +45,12 @@
          <GridPane.margin>
             <Insets bottom="2.0" right="2.0" />
          </GridPane.margin></ListView>
-        <TextField fx:id="searchField" GridPane.rowIndex="3">
+        <TextField fx:id="searchField" maxWidth="320.0" minWidth="320.0" GridPane.rowIndex="3">
             <GridPane.margin>
-                <Insets left="20.0" right="50.0" />
+                <Insets left="2.0" right="2.0" />
             </GridPane.margin>
-            <padding>
-                <Insets top="1.0" />
-            </padding>
         </TextField>
-        <Button fx:id="searchButton" mnemonicParsing="false" onAction="#search" text="Search" GridPane.columnIndex="1" GridPane.rowIndex="3">
+        <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancel" text="Cancel" GridPane.columnIndex="1" GridPane.rowIndex="3">
             <GridPane.margin>
                 <Insets right="10.0" />
             </GridPane.margin>
@@ -65,8 +62,8 @@
       </ListView>
     </children>
     <columnConstraints>
-        <ColumnConstraints maxWidth="195.0" minWidth="195.0" prefWidth="195.0" />
-        <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="360.0" prefWidth="360.0" />
+        <ColumnConstraints maxWidth="330.0" minWidth="330.0" prefWidth="330.0" />
+        <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="225.0" prefWidth="225.0" />
         <ColumnConstraints hgrow="ALWAYS" maxWidth="200.0" minWidth="120.0" prefWidth="165.0" />
     </columnConstraints>
     <rowConstraints>

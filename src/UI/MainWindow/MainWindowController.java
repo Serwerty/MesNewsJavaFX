@@ -13,6 +13,7 @@ import Logger.Logger;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.IOException;
@@ -27,12 +28,12 @@ public class MainWindowController implements Initializable{
 
     @FXML
     private ListView logList;
-
     @FXML
     private ListView newsListView;
+    @FXML
+    private TextField searchField;
 
     private int selectedId = -1;
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -44,6 +45,12 @@ public class MainWindowController implements Initializable{
             selectedId = DataProvider.instance().getList().indexOf(newValue);
             //Logger.instance().add("Selected item: " + selectedId);
         });
+
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            String _currentText = searchField.getText();
+            newsListView.itemsProperty().bind(DataProvider.instance().getList(x-> x.getTitre().contains(_currentText) ||
+                    x.getAuteur().contains(_currentText) || x.getSource().toString().contains(_currentText)));
+        });
     }
 
     public void populateTableView() {
@@ -51,8 +58,9 @@ public class MainWindowController implements Initializable{
     }
 
     @FXML
-    private void search() {
-        Logger.instance().add("click!");
+    private void cancel() {
+        searchField.setText("");
+        populateTableView();
     }
 
     @FXML

@@ -122,13 +122,12 @@ public class DataProvider implements Serializable{
     public  ListProperty<String> getList(Predicate<News> tester) {
         ArrayList<String> _finalCollection = new ArrayList<>();
         ListProperty<String> _finalCollectionProperty = new SimpleListProperty<>();
-        _finalCollectionProperty.set(FXCollections.observableArrayList(_finalCollection));
         for (News _news : newsCollection) {
             if (tester.test(_news)) {
                 _finalCollection.add("#" + newsCollection.indexOf(_news)+ ": " + _news.toString());
             }
         }
-
+        _finalCollectionProperty.set(FXCollections.observableArrayList(_finalCollection));
         return _finalCollectionProperty;
     }
 
