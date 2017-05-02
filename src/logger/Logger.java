@@ -1,4 +1,4 @@
-package Logger;
+package logger;
 
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
@@ -29,8 +29,8 @@ public class Logger {
         return logListProperty;
     }
 
-    public void add(String logMes) {
-       logList.add(logMes);
+    public void addMessage(String messageToLog) {
+       logList.add(messageToLog);
        logListProperty.set(FXCollections.observableArrayList(logList));
     }
 

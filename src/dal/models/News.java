@@ -1,4 +1,4 @@
-package DAL.Models;
+package dal.models;
 
 import java.io.PrintWriter;
 import java.io.Serializable;

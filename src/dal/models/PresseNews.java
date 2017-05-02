@@ -1,4 +1,4 @@
-package DAL.Models;
+package dal.models;
 
 import java.io.PrintWriter;
 import java.net.URL;
@@ -6,13 +6,13 @@ import java.net.URL;
 /**
  * Created by Oleg Dovzhenko on 26.04.2017.
  */
-public class NewsPresse extends News{
+public class PresseNews extends News{
 
     private URL urlLongue;
     private boolean isELectronic;
 
 
-    public NewsPresse(String titre, String auteur, URL source, URL urlLongue, boolean isELectronic) {
+    public PresseNews(String titre, String auteur, URL source, URL urlLongue, boolean isELectronic) {
         super(titre, auteur, source);
         this.urlLongue = urlLongue;
         this.isELectronic = isELectronic;

@@ -1,6 +1,6 @@
-package DAL.Models;
+package dal.models;
 
-import Utility.Resolution;
+import utility.Resolution;
 
 import java.io.PrintWriter;
 import java.net.URL;
@@ -8,8 +8,7 @@ import java.net.URL;
 /**
  * Created by Oleg Dovzhenko on 26.04.2017.
  */
-public class NewsPhoto extends News{
-
+public class PhotoNews extends News{
 
     private URL photoURL;
     private String imageType;
@@ -17,7 +16,7 @@ public class NewsPhoto extends News{
 
     private boolean isBlanc;
 
-    public NewsPhoto(String titre, String auteur, URL source,URL photoURL, String imageType, Resolution resolution,
+    public PhotoNews(String titre, String auteur, URL source, URL photoURL, String imageType, Resolution resolution,
                      boolean isBlanc) {
         super(titre, auteur, source);
         this.photoURL = photoURL;

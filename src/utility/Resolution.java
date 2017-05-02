@@ -1,4 +1,4 @@
-package Utility;
+package utility;
 
 import java.io.Serializable;
 
@@ -9,7 +9,7 @@ public class Resolution implements Serializable{
     private int height;
     private int width;
 
-    public Resolution(int height, int width) {
+    public Resolution(int width, int height) {
         this.height = height;
         this.width = width;
     }

@@ -1,9 +1,11 @@
-package UI.AddPhotoWindow;
+package window.addphotowindow;
 
-import Constants.mainConstants;
-import DAL.Models.NewsPhoto;
-import Logic.LogicController;
-import Utility.Resolution;
+import com.sun.org.apache.bcel.internal.classfile.Constant;
+import com.sun.org.apache.xpath.internal.operations.Bool;
+import constants.Constants;
+import dal.models.PhotoNews;
+import service.NewsService;
+import utility.Resolution;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -42,64 +44,60 @@ public class AddPhotoWindowController implements Initializable {
     @FXML
     private Button addButton;
 
+    private Boolean isInputCorrect;
+
     @FXML
     private void addButtonAction() {
-        Boolean _isInputCorrect = true;
+        isInputCorrect = true;
         String _titre = titreField.getText();
         if ("".equals(_titre))
-            titreField.setStyle(mainConstants.ERROR_STYLE);
+            titreField.setStyle(Constants.ERROR_STYLE);
 
         String _auteur = auteurField.getText();
         if ("".equals(_auteur))
-            auteurField.setStyle(mainConstants.ERROR_STYLE);
+            auteurField.setStyle(Constants.ERROR_STYLE);
 
-        String _source = sourceField.getText();
-        URL _sourceURL = null;
-        try {
-            _sourceURL = new URL(_source);
-        }
-        catch (MalformedURLException exp){
-            _isInputCorrect = false;
-            sourceField.setStyle(mainConstants.ERROR_STYLE);
-        }
-
-        String _secondSource = secondSourceField.getText();
-        URL _secondSourceURL = null;
-        try {
-            _secondSourceURL = new URL(_secondSource);
-        }
-        catch (MalformedURLException exp){
-            _isInputCorrect = false;
-            secondSourceField.setStyle(mainConstants.ERROR_STYLE);
-        }
+        URL _sourceURL = getUrlFromField(sourceField);
+        URL _secondSourceURL = getUrlFromField(secondSourceField);
 
         String _photoType = dropDownList.getValue();
-        String _resXString = resolutionFieldWidth.getText();
-        int _resX=0;
-        if ("".equals(_resXString))
-            resolutionFieldWidth.setStyle(mainConstants.ERROR_STYLE);
-        else
-            _resX = Integer.parseInt(_resXString);
 
-        String _resYString = resolutionFieldHeight.getText();
-        int _resY=0;
-        if ("".equals(_resYString))
-            resolutionFieldHeight.setStyle(mainConstants.ERROR_STYLE);
-        else
-            _resY = Integer.parseInt(_resYString);
+        int _resX = getIntFromField(resolutionFieldWidth);
+        int _resY = getIntFromField(resolutionFieldHeight);
         Boolean _isBlanc = firstChoice.isSelected();
 
-        if (_isInputCorrect) {
-            NewsPhoto _photoToBeAdded = new NewsPhoto(_titre, _auteur, _sourceURL, _secondSourceURL, _photoType,
+        if (isInputCorrect) {
+            PhotoNews _photoToBeAdded = new PhotoNews(_titre, _auteur, _sourceURL, _secondSourceURL, _photoType,
                                                       new Resolution(_resX, _resY), _isBlanc);
 
-            switch (LogicController.instance().getCurrentMode()) {
-                case mainConstants.ADDING_PHOTO_MODE:   LogicController.instance().addNews(_photoToBeAdded);    break;
-                case mainConstants.EDITING_PHOTO_MODE:  LogicController.instance().editNews(_photoToBeAdded);   break;
-                default:                                closeWindow();                                          break;
+            switch (NewsService.instance().getCurrentMode()) {
+                case Constants.ADDING_PHOTO_MODE:   NewsService.instance().addNews(_photoToBeAdded);    break;
+                case Constants.EDITING_PHOTO_MODE:  NewsService.instance().editNews(_photoToBeAdded);   break;
+                default:                            closeWindow();                                      break;
             }
             closeWindow();
         }
+    }
+
+    private URL getUrlFromField(TextField source) {
+        try {
+            return new URL(source.getText());
+        } catch (MalformedURLException exp) {
+            isInputCorrect = false;
+            source.setStyle(Constants.ERROR_STYLE);
+            return null;
+        }
+    }
+
+    private int getIntFromField(TextField source) {
+        String _resString = source.getText();
+        if ("".equals(_resString)) {
+            source.setStyle(Constants.ERROR_STYLE);
+            isInputCorrect = false;
+        }
+        else
+            return Integer.parseInt(_resString);
+        return 0;
     }
 
     private void closeWindow() {
@@ -108,28 +106,28 @@ public class AddPhotoWindowController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        dropDownList.getItems().addAll(mainConstants.PHOTO_TYPES_LIST);
+        dropDownList.getItems().addAll(Constants.PHOTO_TYPES_LIST);
         dropDownList.getSelectionModel().selectFirst();
 
         sourceField.textProperty().addListener((observable, oldValue, newValue) -> {
             if ("".equals(sourceField.getText()))
-                sourceField.setText("http://");
+                sourceField.setText(Constants.HTTP_TAG);
         });
 
         sourceField.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if ("".equals(sourceField.getText()))
-                sourceField.setText("http://");
+                sourceField.setText(Constants.HTTP_TAG);
             sourceField.setStyle(null);
         });
 
         secondSourceField.textProperty().addListener((observable, oldValue, newValue) -> {
             if ("".equals(secondSourceField.getText()))
-                secondSourceField.setText("http://");
+                secondSourceField.setText(Constants.HTTP_TAG);
         });
 
         secondSourceField.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if ("".equals(secondSourceField.getText()))
-                secondSourceField.setText("http://");
+                secondSourceField.setText(Constants.HTTP_TAG);
             secondSourceField.setStyle(null);
         });
 
@@ -141,32 +139,32 @@ public class AddPhotoWindowController implements Initializable {
         resolutionFieldWidth.setTooltip(new Tooltip("Width"));
         resolutionFieldHeight.setTooltip(new Tooltip("Height"));
 
-        UnaryOperator<TextFormatter.Change> filterNumbers = x -> x.getControlNewText().matches("[0-9]{0,5}")? x : null;
+        UnaryOperator<TextFormatter.Change> filterNumbers = x -> x.getControlNewText().matches("[0-9]{0,4}")? x : null;
 
         resolutionFieldWidth.setTextFormatter(new TextFormatter<String>(filterNumbers));
         resolutionFieldHeight.setTextFormatter(new TextFormatter<String>(filterNumbers));
 
 
-        switch (LogicController.instance().getCurrentMode()) {
-            case mainConstants.ADDING_PHOTO_MODE  :     initAddingMode();    break;
-            case mainConstants.EDITING_PHOTO_MODE :     initEditingMode();   break;
-            default :                                   closeWindow();       break;
+        switch (NewsService.instance().getCurrentMode()) {
+            case Constants.ADDING_PHOTO_MODE  :     initAddingMode();    break;
+            case Constants.EDITING_PHOTO_MODE :     initEditingMode();   break;
+            default :                               closeWindow();       break;
         }
     }
 
     private void initAddingMode() {
-        titleLabel.setText(mainConstants.ADDING_PHOTO_TITLE);
+        titleLabel.setText(Constants.ADDING_PHOTO_TITLE);
     }
 
     private void initEditingMode() {
-        titleLabel.setText(mainConstants.EDITING_PHOTO_TITLE);
-        NewsPhoto _newsPhoto = (NewsPhoto)LogicController.instance().getNewsToBeEdit();
+        titleLabel.setText(Constants.EDITING_PHOTO_TITLE);
+        PhotoNews _newsPhoto = (PhotoNews) NewsService.instance().getNewsToBeEdit();
         titreField.setText(_newsPhoto.getTitre());
         auteurField.setText(_newsPhoto.getAuteur());
         sourceField.setText(_newsPhoto.getSource().toString());
         secondSourceField.setText(_newsPhoto.getPhotoURL().toString());
-        resolutionFieldWidth.setText((new Integer(_newsPhoto.getResolution().getWidth()).toString()));
-        resolutionFieldHeight.setText(new Integer(_newsPhoto.getResolution().getHeight()).toString());
+        resolutionFieldWidth.setText((Integer.toString(_newsPhoto.getResolution().getWidth())));
+        resolutionFieldHeight.setText(Integer.toString(_newsPhoto.getResolution().getHeight()));
         dropDownList.getSelectionModel().select(_newsPhoto.getImageType());
         if (_newsPhoto.isBlanc()) {
             firstChoice.setSelected(true);

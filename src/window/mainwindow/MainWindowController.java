@@ -1,15 +1,16 @@
-package UI.MainWindow;
+package window.mainwindow;
 
-import Constants.mainConstants;
-import DAL.DataProvider;
-import DAL.Models.News;
-import DAL.Models.NewsPhoto;
-import DAL.Models.NewsPresse;
-import Logic.LogicController;
+import constants.Constants;
+import dal.NewsDataProvider;
+import dal.models.News;
+import dal.models.PhotoNews;
+import dal.models.PresseNews;
+import javafx.scene.control.Skin;
+import service.NewsService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import Logger.Logger;
+import logger.Logger;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
@@ -42,19 +43,19 @@ public class MainWindowController implements Initializable{
         populateTableView();
 
         newsListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            selectedId = DataProvider.instance().getList().indexOf(newValue);
-            //Logger.instance().add("Selected item: " + selectedId);
+            selectedId = NewsDataProvider.instance().getList().indexOf(newValue);
+            //logger.instance().addMessage("Selected item: " + selectedId);
         });
 
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
             String _currentText = searchField.getText();
-            newsListView.itemsProperty().bind(DataProvider.instance().getList(x-> x.getTitre().contains(_currentText) ||
+            newsListView.itemsProperty().bind(NewsDataProvider.instance().getList(x-> x.getTitre().contains(_currentText) ||
                     x.getAuteur().contains(_currentText) || x.getSource().toString().contains(_currentText)));
         });
     }
 
     public void populateTableView() {
-        newsListView.itemsProperty().bind(DataProvider.instance().getList());
+        newsListView.itemsProperty().bind(NewsDataProvider.instance().getList());
     }
 
     @FXML
@@ -65,26 +66,26 @@ public class MainWindowController implements Initializable{
 
     @FXML
     private void newCollection() {
-        LogicController.instance().newCollection();
+        NewsService.instance().newCollection();
         populateTableView();
     }
 
     @FXML
     private void loadCollection() {
-        LogicController.instance().loadCollection();
+        NewsService.instance().loadCollection();
         populateTableView();
     }
 
     @FXML
     private void saveCollection() {
-        LogicController.instance().saveCollection();
+        NewsService.instance().saveCollection();
     }
 
     @FXML
     private void addArticle() {
-        LogicController.instance().switchMode(mainConstants.ADDING_ARTICLE_MODE);
+        NewsService.instance().switchMode(Constants.ADDING_ARTICLE_MODE);
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("UI/AddArticleWindow/addArticleWindow.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("window/addarticlewindow/AddArticleWindow.fxml"));
             Parent root1 = fxmlLoader.load();
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -93,15 +94,15 @@ public class MainWindowController implements Initializable{
             stage.show();
         }
         catch (IOException e) {
-            Logger.instance().add("Error: " + e.getMessage());
+            Logger.instance().addMessage("Error: " + e.getMessage());
         }
     }
 
     @FXML
     private void addPhoto() {
-        LogicController.instance().switchMode(mainConstants.ADDING_PHOTO_MODE);
+        NewsService.instance().switchMode(Constants.ADDING_PHOTO_MODE);
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("UI/AddPhotoWindow/addPhotoWindow.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("window/addphotowindow/AddPhotoWindow.fxml"));
             Parent root1 = fxmlLoader.load();
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -110,32 +111,32 @@ public class MainWindowController implements Initializable{
             stage.show();
         }
         catch (IOException e) {
-            Logger.instance().add("Error: " + e.getMessage());
+            Logger.instance().addMessage("Error: " + e.getMessage());
         }
     }
 
     @FXML
     private void edit() {
         if (selectedId!=-1) {
-           News _news = DataProvider.instance().getArticle(selectedId);
-            if (_news instanceof NewsPhoto) {
-                LogicController.instance().setNewsToBeEdit(_news);
+           News _news = NewsDataProvider.instance().getArticle(selectedId);
+            if (_news instanceof PhotoNews) {
+                NewsService.instance().setNewsToBeEdit(_news);
                 editPhoto();
             }
-            else if (_news instanceof NewsPresse){
-                LogicController.instance().setNewsToBeEdit(_news);
+            else if (_news instanceof PresseNews){
+                NewsService.instance().setNewsToBeEdit(_news);
                 editArticle();
             }
         }
         else {
-            Logger.instance().add("Select item first!");
+            Logger.instance().addMessage("Select item first!");
         }
     }
 
     private void editPhoto() {
-        LogicController.instance().switchMode(mainConstants.EDITING_PHOTO_MODE);
+        NewsService.instance().switchMode(Constants.EDITING_PHOTO_MODE);
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("UI/AddPhotoWindow/addPhotoWindow.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("window/addphotowindow/AddPhotoWindow.fxml"));
             Parent root1 = fxmlLoader.load();
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -144,14 +145,14 @@ public class MainWindowController implements Initializable{
             stage.show();
         }
         catch (IOException e) {
-            Logger.instance().add("Error: " + e.getMessage());
+            Logger.instance().addMessage("Error: " + e.getMessage());
         }
     }
 
     private void editArticle() {
-        LogicController.instance().switchMode(mainConstants.EDITING_ARTICLE_MODE);
+        NewsService.instance().switchMode(Constants.EDITING_ARTICLE_MODE);
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("UI/AddArticleWindow/addArticleWindow.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("window/addarticlewindow/AddArticleWindow.fxml"));
             Parent root1 = fxmlLoader.load();
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -160,19 +161,19 @@ public class MainWindowController implements Initializable{
             stage.show();
         }
         catch (IOException e) {
-            Logger.instance().add("Error: " + e.getMessage());
+            Logger.instance().addMessage("Error: " + e.getMessage());
         }
     }
 
     @FXML
     private void deleteArticle() {
         if (selectedId != -1) {
-            if (DataProvider.instance().delete(selectedId)) {
+            if (NewsDataProvider.instance().delete(selectedId)) {
                 selectedId = -1;
             }
         }
         else {
-            Logger.instance().add("Select item to be deleted first!");
+            Logger.instance().addMessage("Select item to be deleted first!");
         }
     }
 
